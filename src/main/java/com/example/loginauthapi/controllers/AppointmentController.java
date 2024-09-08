@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -36,10 +37,7 @@ public class AppointmentController {
 
     @GetMapping
     public ResponseEntity<List<AppointmentResponseDTO>> getAppointments(Principal principal) {
-        // O principal contém o email do usuário autenticado
         String userEmail = principal.getName();
-
-        // Busque as consultas no repositório com base no email do paciente autenticado
         List<AppointmentResponseDTO> appointments = appointmentRepository.findByPatientEmail(userEmail)
                 .stream()
                 .map(AppointmentResponseDTO::new)
@@ -50,14 +48,9 @@ public class AppointmentController {
 
     @GetMapping("/patient/{id}")
     public List<Appointment> getAppointmentsForPatient(@PathVariable String id, Authentication authentication) {
-        // Supondo que o principal seja o email do paciente
         String email = authentication.getName(); // authentication.getName() geralmente retorna o nome de usuário ou email
-
-        // Retorna as consultas associadas ao email do paciente autenticado
         return appointmentService.findByPatientEmail(email);
     }
-
-
 
     @PostMapping
     public ResponseEntity<?> postAppointment(@RequestBody @Valid AppointmentRequestDTO body) {

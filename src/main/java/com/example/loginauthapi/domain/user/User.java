@@ -26,19 +26,16 @@ public class User {
     private String email;
     private String password;
 
-    // O enum que é utilizado no backend
     private User_Role role = User_Role.PATIENT;
 
-    // O valor smallint que será salvo no banco de dados
     private int roleValue;
 
-    // Getter e setter para roleValue
     public int getRoleValue() {
-        return this.role.getValue(); // Converte o enum para smallint
+        return this.role.getValue();
     }
 
     public void setRoleValue(int value) {
-        this.role = User_Role.fromValue(value); // Converte o smallint de volta para o enum
+        this.role = User_Role.fromValue(value);
     }
 }
 

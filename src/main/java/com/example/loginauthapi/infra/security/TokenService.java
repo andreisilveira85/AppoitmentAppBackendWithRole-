@@ -21,13 +21,12 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
-            // Adiciona user-id e role como claims no token JWT
             String token = JWT.create()
                     .withIssuer("login-auth-api")
-                    .withSubject(user.getEmail())  // Define o subject como o email do usuário
-                    .withClaim("user-id", user.getId())  // Adiciona o user-id no token
-                    .withClaim("role", user.getRole().toString())  // Adiciona a role do usuário no token
-                    .withExpiresAt(this.generateExpirationDate())  // Define o tempo de expiração
+                    .withSubject(user.getEmail())
+                    .withClaim("user-id", user.getId())
+                    .withClaim("role", user.getRole().toString())
+                    .withExpiresAt(this.generateExpirationDate())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
@@ -42,7 +41,7 @@ public class TokenService {
                     .withIssuer("login-auth-api")
                     .build()
                     .verify(token)
-                    .getSubject();  // Retorna o subject (email) se o token for válido
+                    .getSubject();
         } catch (JWTVerificationException exception) {
             return null;
         }

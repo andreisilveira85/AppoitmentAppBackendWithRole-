@@ -24,12 +24,12 @@ public class Appointment {
 
     private String reason;
 
-    private String patientEmail;  // Adiciona o campo para o email do paciente
+    private String patientEmail;
 
     public Appointment(AppointmentRequestDTO data){
         this.dateTime = data.dateTime();
         this.reason = data.reason();
-        this.patientEmail = data.patientEmail();  // Certifique-se de que o DTO também contenha o campo patientEmail
+        this.patientEmail = data.patientEmail();
     }
 
     public String getId() {

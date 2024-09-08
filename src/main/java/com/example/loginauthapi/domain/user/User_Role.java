@@ -1,10 +1,7 @@
 package com.example.loginauthapi.domain.user;
 
 public enum User_Role {
-    PATIENT(0),
-    ADMIN(1),
-    RECEPTIONIST(2),
-    DOCTOR(3);
+    PATIENT(0), ADMIN(1), RECEPTIONIST(2), DOCTOR(3);
 
     private final int value;
 
@@ -27,7 +24,8 @@ public enum User_Role {
             case 3:
                 return DOCTOR;
             default:
-                throw new IllegalArgumentException("Valor de role inválido: " + value);
+                throw new IllegalArgumentException("Invalid role value: " + value);
+
         }
     }
 }
