@@ -48,7 +48,7 @@ public class AppointmentController {
 
     @GetMapping("/patient/{id}")
     public List<Appointment> getAppointmentsForPatient(@PathVariable String id, Authentication authentication) {
-        String email = authentication.getName(); // authentication.getName() geralmente retorna o nome de usuário ou email
+        String email = authentication.getName();
         return appointmentService.findByPatientEmail(email);
     }
 
@@ -59,6 +59,22 @@ public class AppointmentController {
         appointmentRepository.save(newAppointment);
         return ResponseEntity.ok(new AppointmentResponseDTO(newAppointment));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAppointment(@PathVariable String id, @RequestBody @Valid AppointmentRequestDTO updatedAppointment) {
+        return appointmentRepository.findById(id)
+                .map(existingAppointment -> {
+                    existingAppointment.setDateTime(updatedAppointment.dateTime());
+                    existingAppointment.setReason(updatedAppointment.reason());
+                    existingAppointment.setPatientEmail(updatedAppointment.patientEmail());
+
+                    appointmentRepository.save(existingAppointment);
+
+                    return ResponseEntity.ok(new AppointmentResponseDTO(existingAppointment));
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAppointment(@PathVariable String id) {
